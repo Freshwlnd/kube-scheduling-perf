@@ -25,8 +25,8 @@ func TestMain(m *testing.M) {
 
 	restConfig := cfg.Client().RESTConfig()
 	restConfig.RateLimiter = nil
-	restConfig.QPS = 1000
-	restConfig.Burst = 1000
+	restConfig.QPS = 100
+	restConfig.Burst = 200
 
 	r, err = resources.New(restConfig)
 	if err != nil {
