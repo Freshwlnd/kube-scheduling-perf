@@ -25,6 +25,8 @@ nodes:
     controllerManager:
       extraArgs:
         bind-address: 0.0.0.0
+        kube-api-qps: 1000
+        kube-api-burst: 1000
     etcd:
       local:
         extraArgs:
@@ -32,6 +34,8 @@ nodes:
     scheduler:
       extraArgs:
         bind-address: 0.0.0.0
+        kube-api-qps: 1000
+        kube-api-burst: 1000
     apiServer:
       extraArgs:
         audit-log-maxsize: '1024'
