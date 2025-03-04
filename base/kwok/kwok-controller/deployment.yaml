@@ -37,6 +37,7 @@ spec:
         - --enable-crds=ClusterPortForward
         - --enable-crds=ResourceUsage
         - --enable-crds=ClusterResourceUsage
+        - --config=/root/.kwok/kwok.yaml
         env:
         - name: POD_IP
           valueFrom:
@@ -76,6 +77,15 @@ spec:
           initialDelaySeconds: 2
           periodSeconds: 10
           timeoutSeconds: 2
+        volumeMounts:
+        - name: kwok-config
+          subPath: kwok.yaml
+          mountPath: /root/.kwok/kwok.yaml
+          readOnly: true
+      volumes:
+      - name: kwok-config
+        configMap:
+          name: kwok
       hostNetwork: true
       restartPolicy: Always
       serviceAccountName: kwok-controller
