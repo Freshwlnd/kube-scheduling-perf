@@ -21,21 +21,28 @@ nodes:
     kind: KubeProxyConfiguration
     metricsBindAddress: 0.0.0.0
   - |-
+    apiVersion: kubeadm.k8s.io/v1beta4
     kind: ClusterConfiguration
     controllerManager:
       extraArgs:
-        bind-address: 0.0.0.0
-        kube-api-qps: 1000
-        kube-api-burst: 1000
+      - name: bind-address
+        value: "0.0.0.0"
+      - name: kube-api-qps
+        value: "1000"
+      - name: kube-api-burst
+        value: "1000"
     etcd:
       local:
         extraArgs:
           listen-metrics-urls: http://0.0.0.0:2381
     scheduler:
       extraArgs:
-        bind-address: 0.0.0.0
-        kube-api-qps: 1000
-        kube-api-burst: 1000
+      - name: bind-address
+        value: "0.0.0.0"
+      - name: kube-api-qps
+        value: "1000"
+      - name: kube-api-burst
+        value: "1000"
     apiServer:
       extraArgs:
         audit-log-maxsize: '1024'
