@@ -31,6 +31,9 @@ nodes:
       local:
         extraArgs:
           listen-metrics-urls: http://0.0.0.0:2381
+          quota-backend-bytes: "8589934592"
+          auto-compaction-mode: revision
+          auto-compaction-retention: "1000"
     scheduler:
       extraArgs:
         bind-address: 0.0.0.0
