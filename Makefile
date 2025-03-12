@@ -2,10 +2,11 @@
 up: \
 	create-registry \
 	create-cluster \
+	create-ingress \
 	create-kube-prometheus-stack \
 	create-kube-apiserver-audit-exporter \
 	create-kwok \
-	create-ingress
+	create-ingress-routes 
 
 down: \
 	delete-cluster \
@@ -25,12 +26,14 @@ create-kwok:
 
 create-ingress:
 	kubectl create -k ./base/ingress
+
+create-ingress-routes:
 	kubectl wait --namespace ingress-nginx \
 		--for=condition=ready pod \
 		--selector=app.kubernetes.io/component=controller \
 		--timeout=180s
 	sleep 1
-	kubectl apply -k ./base/routes
+	kubectl create -k ./base/routes
 
 create-cluster:
 	./hack/kind-with-local-registry.sh 
