@@ -35,7 +35,7 @@ fi
 while IFS= read -r image; do
   target_image="localhost:5001/${image}"
 
-  if ! docker image inspect "${target_image}" &>/dev/null; then
+  if ! docker manifest inspect --insecure "${target_image}" &>/dev/null; then
     source_image="${IMAGE_PREFIX}${image}"
 
     # Pull image if not exists locally
