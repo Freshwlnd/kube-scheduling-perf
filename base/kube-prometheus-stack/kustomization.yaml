@@ -20,3 +20,13 @@ resources:
 - kube-prometheus-stack-apiserver
 - kube-prometheus-stack-kubelet
 - namespace.yaml
+- servicemonitor.yaml
+
+configMapGenerator:
+- name: audit-exporter
+  options:
+    disableNameSuffixHash: true
+    labels:
+      "grafana_dashboard": "1"
+  files:
+  - audit-exporter.json

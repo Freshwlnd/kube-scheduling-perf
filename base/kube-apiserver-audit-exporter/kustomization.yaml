@@ -3,12 +3,3 @@ kind: Kustomization
 
 resources:
 - kube-apiserver-audit-exporter
-
-configMapGenerator:
-- name: audit-exporter
-  options:
-    disableNameSuffixHash: true
-    labels:
-      "grafana_dashboard": "1"
-  files:
-  - audit-exporter.json

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: kube-apiserver-audit-exporter
+  name: kube-apiserver-audit-exporter
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: exporter
+        args:
+        - --replay
+        - --cluster-label
+        - audit-exporter
+        - --audit-log-path
+        - /var/log/kubernetes/kube-apiserver-audit.log
