@@ -17,9 +17,9 @@ reg_port='5001'
 # Create local registry container if not running
 if [[ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)" != 'true' ]]; then
   target_image="docker.io/library/registry:2.8.3"
-  if [[ ${IMAGE_PREFIX} != "" ]] && ! docker image inspect "${target_image}" &>/dev/null; then 
-      docker pull "${IMAGE_PREFIX}${target_image}"
-      docker tag "${IMAGE_PREFIX}${target_image}" "${target_image}"
+  if [[ ${IMAGE_PREFIX} != "" ]] && ! docker image inspect "${target_image}" &>/dev/null; then
+    docker pull "${IMAGE_PREFIX}${target_image}"
+    docker tag "${IMAGE_PREFIX}${target_image}" "${target_image}"
   fi
   docker run \
     -d \
@@ -31,7 +31,13 @@ if [[ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || tru
     "${target_image}"
 fi
 
-# Process images from images.txt
+function get_image() {
+  grep -E "kind-registry:5000/|localhost:5001/" |
+    sed -E 's#.*(kind-registry:5000/|localhost:5001/)##g; s/"//g' |
+    sort |
+    uniq
+}
+
 while IFS= read -r image; do
   target_image="localhost:5001/${image}"
 
@@ -47,4 +53,4 @@ while IFS= read -r image; do
     docker tag "${source_image}" "${target_image}"
     docker push "${target_image}"
   fi
-done <"${DIR}/images.txt"
+done < <(get_image)
