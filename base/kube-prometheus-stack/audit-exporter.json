@@ -116,11 +116,11 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "api_requests_total{user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}",
+          "expr": "api_requests_total{cluster=~\"$cluster\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "{{user}} {{verb}} {{resource}}",
+          "legendFormat": "{{cluster}} {{user}} {{verb}} {{resource}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -223,12 +223,12 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(api_requests_total{user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}[$rate_interval])",
+          "expr": "rate(api_requests_total{cluster=~\"$cluster\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}[$rate_interval])",
           "format": "heatmap",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
           "instant": false,
-          "legendFormat": "{{user}} {{verb}} {{resource}}",
+          "legendFormat": "{{cluster}} {{user}} {{verb}} {{resource}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -331,11 +331,11 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum by(le) (rate(pod_scheduling_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "legendFormat": "P99",
+          "legendFormat": "{{cluster}} {{user}} P99",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -346,12 +346,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.95, sum by(le) (rate(pod_scheduling_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "legendFormat": "P95",
+          "legendFormat": "{{cluster}} {{user}} P95",
           "range": true,
           "refId": "B",
           "useBackend": false
@@ -362,12 +362,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.9, sum by(le) (rate(pod_scheduling_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.9, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "legendFormat": "P90",
+          "legendFormat": "{{cluster}} {{user}} P90",
           "range": true,
           "refId": "C",
           "useBackend": false
@@ -378,12 +378,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.75, sum by(le) (rate(pod_scheduling_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.75, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "legendFormat": "P75",
+          "legendFormat": "{{cluster}} {{user}} P75",
           "range": true,
           "refId": "D",
           "useBackend": false
@@ -394,12 +394,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.5, sum by(le) (rate(pod_scheduling_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.5, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "legendFormat": "P50",
+          "legendFormat": "{{cluster}} {{user}} P50",
           "range": true,
           "refId": "E",
           "useBackend": false
@@ -410,12 +410,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.25, sum by(le) (rate(pod_scheduling_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.25, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
-          "legendFormat": "P25",
+          "legendFormat": "{{cluster}} {{user}} P25",
           "range": true,
           "refId": "F",
           "useBackend": false
@@ -518,10 +518,10 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum by(le) (rate(batchjob_completion_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
-          "legendFormat": "P99",
+          "legendFormat": "{{cluster}} {{user}} P99",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -532,12 +532,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.95, sum by(le) (rate(batchjob_completion_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.95, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
-          "legendFormat": "P95",
+          "legendFormat": "{{cluster}} {{user}} P95",
           "range": true,
           "refId": "B",
           "useBackend": false
@@ -548,12 +548,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.9, sum by(le) (rate(batchjob_completion_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.9, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
-          "legendFormat": "P90",
+          "legendFormat": "{{cluster}} {{user}} P90",
           "range": true,
           "refId": "C",
           "useBackend": false
@@ -564,12 +564,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.75, sum by(le) (rate(batchjob_completion_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.75, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
-          "legendFormat": "P75",
+          "legendFormat": "{{cluster}} {{user}} P75",
           "range": true,
           "refId": "D",
           "useBackend": false
@@ -580,12 +580,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.5, sum by(le) (rate(batchjob_completion_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.5, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
-          "legendFormat": "P50",
+          "legendFormat": "{{cluster}} {{user}} P50",
           "range": true,
           "refId": "E",
           "useBackend": false
@@ -596,12 +596,12 @@
             "uid": "${datasource}"
           },
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "histogram_quantile(0.25, sum by(le) (rate(batchjob_completion_latency_seconds_bucket{user=~\"$user\"}[$rate_interval])))",
+          "editorMode": "code",
+          "expr": "histogram_quantile(0.25, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
-          "legendFormat": "P25",
+          "legendFormat": "{{cluster}} {{user}} P25",
           "range": true,
           "refId": "F",
           "useBackend": false
@@ -695,11 +695,11 @@
       "targets": [
         {
           "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "pod_scheduling_latency_seconds_count{user=~\"$user\"}",
+          "editorMode": "code",
+          "expr": "pod_scheduling_latency_seconds_count{cluster=~\"$cluster\", user=~\"$user\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "legendFormat": "{{user}}",
+          "legendFormat": "{{cluster}} {{user}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -794,10 +794,10 @@
         {
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "batchjob_completion_latency_seconds_count{user=~\"$user\"}",
+          "expr": "batchjob_completion_latency_seconds_count{cluster=~\"$cluster\", user=~\"$user\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "legendFormat": "{{user}}",
+          "legendFormat": "{{cluster}} {{user}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -973,6 +973,37 @@
         "query": {
           "qryType": 1,
           "query": "label_values(api_requests_total,verb)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(api_requests_total,cluster)",
+        "description": "",
+        "includeAll": true,
+        "label": "Cluster",
+        "multi": true,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(api_requests_total,cluster)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
