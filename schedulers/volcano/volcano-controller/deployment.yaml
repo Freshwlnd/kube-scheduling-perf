@@ -21,11 +21,11 @@ spec:
         - --enable-healthz=true
         - --enable-metrics=true
         - --leader-elect=false
-        - --kube-api-qps=100
-        - --kube-api-burst=200
-        - --worker-threads=3
-        - --worker-threads-for-gc=5
-        - --worker-threads-for-podgroup=5
+        - --kube-api-qps=1000
+        - --kube-api-burst=1000
+        - --worker-threads=100
+        - --worker-threads-for-gc=100
+        - --worker-threads-for-podgroup=100
         - -v=4
         - 2>&1
         image: kind-registry:5000/docker.io/volcanosh/vc-controller-manager:v1.11.0
