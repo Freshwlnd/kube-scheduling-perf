@@ -12,16 +12,16 @@ leaderElection:
   resourceName: c1f6bfd2.kueue.x-k8s.io
 controller:
   groupKindConcurrency:
-    Job.batch: 5
-    Pod: 5
-    Workload.kueue.x-k8s.io: 5
-    LocalQueue.kueue.x-k8s.io: 1
-    Cohort.kueue.x-k8s.io: 1
-    ClusterQueue.kueue.x-k8s.io: 1
-    ResourceFlavor.kueue.x-k8s.io: 1
+    Job.batch: 100
+    Pod: 100
+    Workload.kueue.x-k8s.io: 100
+    LocalQueue.kueue.x-k8s.io: 100
+    Cohort.kueue.x-k8s.io: 100
+    ClusterQueue.kueue.x-k8s.io: 100
+    ResourceFlavor.kueue.x-k8s.io: 100
 clientConnection:
-  qps: 50
-  burst: 100
+  qps: 1000
+  burst: 1000
 #pprofBindAddress: :8083
 #waitForPodsReady:
 #  enable: false
