@@ -20,6 +20,7 @@ for file in "${log_files[@]}"; do
   timestamp=${timestamp#kube-apiserver-audit.}
   echo "---"
   echo "${yaml_content}" |
+    sed "s/audit-exporter-cluster-label/${timestamp}/g" |
     sed "s/ audit-exporter/ audit-exporter-${timestamp}/g" |
     sed "s/ kube-apiserver-audit-exporter/ kube-apiserver-audit-exporter-${timestamp}/g" |
     sed "s/kube-apiserver-audit.log/kube-apiserver-audit.${timestamp}.log/g"

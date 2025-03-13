@@ -13,6 +13,6 @@ spec:
         args:
         - --replay
         - --cluster-label
-        - audit-exporter
+        - audit-exporter-cluster-label
         - --audit-log-path
         - /var/log/kubernetes/kube-apiserver-audit.log
