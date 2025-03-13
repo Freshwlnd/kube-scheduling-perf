@@ -44,6 +44,8 @@ nodes:
         audit-log-maxsize: '1024'
         audit-log-path: /var/log/kubernetes/kube-apiserver-audit.log
         audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
+        max-mutating-requests-inflight: '2000'
+        max-requests-inflight: '2000'
       extraVolumes:
       - name: audit-policies
         hostPath: /etc/kubernetes/policies
