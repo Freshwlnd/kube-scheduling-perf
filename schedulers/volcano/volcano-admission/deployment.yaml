@@ -42,6 +42,7 @@ spec:
           name: admission-config
       priorityClassName: system-cluster-critical
       serviceAccount: volcano-admission
+      terminationGracePeriodSeconds: 1
       volumes:
       - name: admission-certs
         secret:

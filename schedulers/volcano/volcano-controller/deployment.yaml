@@ -33,3 +33,5 @@ spec:
         name: volcano-controllers
       priorityClassName: system-cluster-critical
       serviceAccount: volcano-controllers
+      terminationGracePeriodSeconds: 1
+

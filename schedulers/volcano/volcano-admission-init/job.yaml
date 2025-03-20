@@ -28,4 +28,4 @@ spec:
       priorityClassName: system-cluster-critical
       restartPolicy: Never
       serviceAccountName: volcano-admission-init
-  ttlSecondsAfterFinished: 60
+  ttlSecondsAfterFinished: 1
