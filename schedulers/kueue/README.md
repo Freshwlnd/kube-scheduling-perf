@@ -1,3 +1,3 @@
 # Kueue
 
-https://github.com/kubernetes-sigs/kueue/releases/download/v0.10.1/manifests.yaml
+https://github.com/kubernetes-sigs/kueue/releases/download/v0.10.3/manifests.yaml

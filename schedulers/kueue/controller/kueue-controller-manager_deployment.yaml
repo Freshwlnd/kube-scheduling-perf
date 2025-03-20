@@ -27,7 +27,7 @@ spec:
         - --zap-log-level=2
         command:
         - /manager
-        image: kind-registry:5000/registry.k8s.io/kueue/kueue:v0.10.1
+        image: kind-registry:5000/registry.k8s.io/kueue/kueue:v0.10.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -49,13 +49,6 @@ spec:
             port: 8081
           initialDelaySeconds: 5
           periodSeconds: 10
-        resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 500m
-            memory: 512Mi
         securityContext:
           allowPrivilegeEscalation: false
         volumeMounts:
@@ -69,8 +62,10 @@ spec:
         - --secure-listen-address=0.0.0.0:8443
         - --upstream=http://127.0.0.1:8080/
         - --logtostderr=true
+        - --kube-api-burst=1000
+        - --kube-api-qps=1000
         - --v=10
-        image: kind-registry:5000/registry.k8s.io/kubebuilder/kube-rbac-proxy:v0.16.0
+        image: kind-registry:5000/quay.io/brancz/kube-rbac-proxy:v0.17.0
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443
@@ -79,7 +74,7 @@ spec:
       securityContext:
         runAsNonRoot: true
       serviceAccountName: kueue-controller-manager
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 1
       volumes:
       - name: cert
         secret:
