@@ -106,6 +106,7 @@ spec:
       hostPID: true
       nodeSelector:
         kubernetes.io/os: linux
+        node-role.kubernetes.io/control-plane: ""
       securityContext:
         fsGroup: 65534
         runAsGroup: 65534
