@@ -116,10 +116,10 @@ spec:
           readOnly: true
       dnsPolicy: ClusterFirst
       nodeSelector:
-        ingress-ready: "true"
         kubernetes.io/os: linux
+        node-role.kubernetes.io/control-plane: ""
       serviceAccountName: ingress-nginx
-      terminationGracePeriodSeconds: 0
+      terminationGracePeriodSeconds: 1
       tolerations:
       - effect: NoSchedule
         key: node-role.kubernetes.io/master

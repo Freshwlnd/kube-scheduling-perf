@@ -47,6 +47,7 @@ spec:
             type: RuntimeDefault
       nodeSelector:
         kubernetes.io/os: linux
+        node-role.kubernetes.io/control-plane: ""
       restartPolicy: OnFailure
       serviceAccountName: ingress-nginx-admission
-  ttlSecondsAfterFinished: 60
+  ttlSecondsAfterFinished: 1
