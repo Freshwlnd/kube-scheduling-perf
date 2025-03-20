@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: yunikorn
-    chart: yunikorn-1.6.1
+    chart: yunikorn-1.6.2
     heritage: Helm
     release: yunikorn
   name: yunikorn-service

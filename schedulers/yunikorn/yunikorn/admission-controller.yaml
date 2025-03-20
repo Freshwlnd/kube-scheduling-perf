@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: yunikorn
-    chart: yunikorn-1.6.1
+    chart: yunikorn-1.6.2
     heritage: Helm
     release: yunikorn
   name: yunikorn-admission-controller
@@ -32,11 +32,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: GOMEMLIMIT
-          value: 200MiB
-        - name: GOGC
-          value: "100"
-        image: kind-registry:5000/docker.io/apache/yunikorn:admission-1.6.1
+        image: kind-registry:5000/docker.io/apache/yunikorn:admission-1.6.2
         imagePullPolicy: IfNotPresent
         name: yunikorn-admission-controller
         ports:
@@ -49,13 +45,6 @@ spec:
             port: webhook-api
             scheme: HTTPS
           periodSeconds: 5
-        resources:
-          limits:
-            cpu: 500m
-            memory: 500Mi
-          requests:
-            cpu: 100m
-            memory: 500Mi
         startupProbe:
           failureThreshold: 30
           httpGet:
@@ -70,6 +59,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       hostNetwork: true
       serviceAccountName: yunikorn-admission-controller
+      terminationGracePeriodSeconds: 1
       volumes:
       - name: admission-controller-secrets
         secret:

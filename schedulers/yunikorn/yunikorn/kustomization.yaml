@@ -15,7 +15,7 @@ configMapGenerator:
       "helm.sh/resource-policy": "keep"
     labels:
       "app": "yunikorn"
-      "chart": "yunikorn-1.6.1"
+      "chart": "yunikorn-1.6.2"
       "heritage": "Helm"
       "release": "yunikorn"
   files:

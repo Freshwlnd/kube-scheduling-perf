@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: yunikorn
-    chart: yunikorn-1.6.1
+    chart: yunikorn-1.6.2
     heritage: Helm
     release: yunikorn
   name: yunikorn-scheduler
@@ -30,41 +30,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: GOMEMLIMIT
-          value: 1536MiB
-        - name: GOGC
-          value: "100"
-        image: kind-registry:5000/docker.io/apache/yunikorn:scheduler-1.6.1
+        image: kind-registry:5000/docker.io/apache/yunikorn:scheduler-1.6.2
         imagePullPolicy: IfNotPresent
         name: yunikorn-scheduler-k8s
         ports:
         - containerPort: 9080
           name: http1
           protocol: TCP
-        resources:
-          limits:
-            cpu: 4
-            memory: 2Gi
-          requests:
-            cpu: 200m
-            memory: 1Gi
-      - env:
-        - name: GOMEMLIMIT
-          value: 200MiB
-        - name: GOGC
-          value: "100"
-        image: kind-registry:5000/docker.io/apache/yunikorn:web-1.6.1
-        imagePullPolicy: IfNotPresent
-        name: yunikorn-scheduler-web
-        ports:
-        - containerPort: 9889
-          name: http2
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 200m
-            memory: 500Mi
-          requests:
-            cpu: 100m
-            memory: 100Mi
       serviceAccountName: yunikorn-admin
+      terminationGracePeriodSeconds: 1
+
