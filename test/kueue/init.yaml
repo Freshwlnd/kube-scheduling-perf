@@ -4,28 +4,19 @@ metadata:
   name: default
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
-kind: ClusterQueue
+kind: WorkloadPriorityClass
 metadata:
-  name: default-cluster-queue
-  namespace: default
-spec:
-  namespaceSelector: {}
-  resourceGroups:
-  - coveredResources:
-    - "cpu"
-    - "memory"
-    flavors:
-    - name: "default"
-      resources:
-      - name: "cpu"
-        nominalQuota: 1000
-      - name: "memory"
-        nominalQuota: 1000Gi
+  name: human-critical
+value: 1000000
 ---
 apiVersion: kueue.x-k8s.io/v1beta1
-kind: LocalQueue
+kind: WorkloadPriorityClass
 metadata:
-  name: default-local-queue
-  namespace: default
-spec:
-  clusterQueue: default-cluster-queue
+  name: business-impacting
+value: 1000
+---
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: WorkloadPriorityClass
+metadata:
+  name: long-term-research
+value: 1

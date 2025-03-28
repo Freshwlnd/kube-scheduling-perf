@@ -1,37 +1,17 @@
 package yunikorn_test
 
 import (
-	"fmt"
-	"os"
 	"testing"
 
-	"sigs.k8s.io/e2e-framework/klient/conf"
-	"sigs.k8s.io/e2e-framework/klient/k8s/resources"
-	"sigs.k8s.io/e2e-framework/pkg/env"
-	"sigs.k8s.io/e2e-framework/pkg/envconf"
+	"github.com/wzshiming/kube-scheduling-perf/test/utils"
 )
 
-var (
-	testenv env.Environment
-	cfg     *envconf.Config
-	r       *resources.Resources
-)
+var provider YunikornProvider
+
+func init() {
+	provider.AddFlags()
+}
 
 func TestMain(m *testing.M) {
-	var err error
-	path := conf.ResolveKubeConfigFile()
-	cfg = envconf.NewWithKubeConfig(path)
-	testenv = env.NewWithConfig(cfg)
-
-	restConfig := cfg.Client().RESTConfig()
-	restConfig.RateLimiter = nil
-	restConfig.QPS = 100
-	restConfig.Burst = 200
-
-	r, err = resources.New(restConfig)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	os.Exit(testenv.Run(m))
+	utils.InitTestMain(m)
 }

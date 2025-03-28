@@ -10,7 +10,7 @@ metadata:
   name: volcano-admission-init
   namespace: volcano-system
 spec:
-  backoffLimit: 3
+  backoffLimit: 1
   template:
     spec:
       containers:

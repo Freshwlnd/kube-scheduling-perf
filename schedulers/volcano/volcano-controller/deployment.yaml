@@ -21,8 +21,8 @@ spec:
         - --enable-healthz=true
         - --enable-metrics=true
         - --leader-elect=false
-        - --kube-api-qps=1000
-        - --kube-api-burst=1000
+        - --kube-api-qps=1000 # <--QPS
+        - --kube-api-burst=1000 # <--QPS
         - --worker-threads=100
         - --worker-threads-for-gc=100
         - --worker-threads-for-podgroup=100

@@ -80,7 +80,53 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 13,
@@ -95,15 +141,15 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "timezone": [
           "browser"
         ],
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "",
@@ -116,7 +162,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "api_requests_total{cluster=~\"$cluster\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}",
+          "expr": "api_requests_total{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
@@ -126,7 +172,7 @@
           "useBackend": false
         }
       ],
-      "title": "Total API Calls",
+      "title": "Total API Calls Group By (UserAgent, Verb, Resource)",
       "type": "timeseries"
     },
     {
@@ -187,7 +233,53 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 13,
@@ -202,15 +294,15 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "timezone": [
           "browser"
         ],
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "",
@@ -223,7 +315,7 @@
           "disableTextWrap": false,
           "editorMode": "code",
           "exemplar": false,
-          "expr": "rate(api_requests_total{cluster=~\"$cluster\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}[$rate_interval])",
+          "expr": "rate(api_requests_total{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}[$rate_interval])",
           "format": "heatmap",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
@@ -234,7 +326,314 @@
           "useBackend": false
         }
       ],
-      "title": "API Calls Rate",
+      "title": "API Calls Rate Group By (UserAgent, Verb, Resource)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 13
+      },
+      "id": 7,
+      "interval": "1s",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "browser"
+        ],
+        "tooltip": {
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(api_requests_total{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}) by (cluster, user)",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{cluster}} {{user}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "Total API Calls Group By UserAgent",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 13
+      },
+      "id": 8,
+      "interval": "1s",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "browser"
+        ],
+        "tooltip": {
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(rate(api_requests_total{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\", resource=~\"$resource\", verb=~\"$verb\"}[$rate_interval])) by (cluster, user)",
+          "format": "heatmap",
+          "fullMetaSearch": false,
+          "includeNullMetadata": false,
+          "instant": false,
+          "legendFormat": "{{cluster}} {{user}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        }
+      ],
+      "title": "API Calls Rate Group By UserAgent",
       "type": "timeseries"
     },
     {
@@ -296,13 +695,59 @@
           },
           "unit": "s"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 14,
         "w": 12,
         "x": 0,
-        "y": 13
+        "y": 26
       },
       "id": 1,
       "interval": "1s",
@@ -317,9 +762,9 @@
           "browser"
         ],
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "",
@@ -331,7 +776,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -347,7 +792,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -363,7 +808,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.9, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -379,7 +824,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.75, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.75, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -395,7 +840,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -411,7 +856,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.25, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.25, sum by(cluster, user, le) (rate(pod_scheduling_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": true,
@@ -421,7 +866,7 @@
           "useBackend": false
         }
       ],
-      "title": "Pod Scheduling Latency",
+      "title": "Pod Scheduling Latency Group By UserAgent",
       "type": "timeseries"
     },
     {
@@ -483,13 +928,59 @@
           },
           "unit": "s"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "shades"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "shades"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 14,
         "w": 12,
         "x": 12,
-        "y": 13
+        "y": 26
       },
       "id": 4,
       "interval": "1s",
@@ -504,9 +995,9 @@
           "browser"
         ],
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "",
@@ -518,7 +1009,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.99, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.99, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "includeNullMetadata": false,
           "legendFormat": "{{cluster}} {{user}} P99",
@@ -533,7 +1024,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.95, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.95, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -549,7 +1040,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.9, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.9, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -565,7 +1056,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.75, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.75, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -581,7 +1072,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.5, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.5, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -597,7 +1088,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "histogram_quantile(0.25, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", user=~\"$user\"}[$rate_interval])))",
+          "expr": "histogram_quantile(0.25, sum by(cluster, user, le) (rate(batchjob_completion_latency_seconds_bucket{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}[$rate_interval])))",
           "fullMetaSearch": false,
           "hide": false,
           "includeNullMetadata": false,
@@ -607,13 +1098,13 @@
           "useBackend": false
         }
       ],
-      "title": "BatchJob Completion Latency",
+      "title": "BatchJob Completion Latency Group By UserAgent",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -637,13 +1128,16 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 8,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -653,6 +1147,7 @@
               "mode": "off"
             }
           },
+          "fieldMinMax": false,
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -668,13 +1163,182 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/kueue .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/yunikorn .*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/volcano.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.* succeeded/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    30,
+                    3,
+                    3
+                  ],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.* created/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.* scheduled/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 4
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.* deleted.*/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    0,
+                    10
+                  ],
+                  "fill": "dot"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "kueue kube-controller-manager created"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "kueue kube-scheduler scheduled"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "volcano vc-controller-manager created"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "volcano vc-scheduler scheduled"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "yunikorn kube-controller-manager created"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "yunikorn yunikorn-scheduler scheduled"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 13,
         "w": 12,
         "x": 0,
-        "y": 27
+        "y": 40
       },
       "id": 5,
       "interval": "1s",
@@ -683,35 +1347,81 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "pod_scheduling_latency_seconds_count{cluster=~\"$cluster\", user=~\"$user\"}",
+          "exemplar": false,
+          "expr": "sum(pod_scheduling_latency_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}) by (cluster, user)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
-          "legendFormat": "{{cluster}} {{user}}",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "{{cluster}} {{user}} scheduled",
           "range": true,
           "refId": "A",
           "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum(api_requests_total{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\", resource=\"pods\", verb=\"create\"}) by (cluster, user)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{cluster}} {{user}} created",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum(pod_completed_total{cluster=~\"$cluster\", namespace=~\"$namespace\", phase=\"Succeeded\"}) by (cluster, user)",
+          "hide": true,
+          "instant": false,
+          "legendFormat": "{{cluster}} {{user}} succeeded",
+          "range": true,
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
+          "editorMode": "code",
+          "expr": "sum(pod_deleted_total{cluster=~\"$cluster\", namespace=~\"$namespace\", user!=\"kwok\", phase!=\"Succeeded\"}) by (cluster, user, phase)",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "{{cluster}} {{user}} deleted({{phase}})",
+          "range": true,
+          "refId": "C"
         }
       ],
-      "title": "Total Pod Scheduled",
+      "title": "Total Pod Scheduled Group By UserAgent",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -736,12 +1446,12 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 6,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -766,13 +1476,83 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "yunikorn kube-controller-manager"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 4
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "volcano vc-controller-manager"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 4
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "kueue kube-controller-manager"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-purple",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 4
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 20
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
+        "h": 13,
         "w": 12,
         "x": 12,
-        "y": 27
+        "y": 40
       },
       "id": 6,
       "interval": "1s",
@@ -781,20 +1561,24 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "tooltip": {
-          "hideZeros": false,
-          "mode": "single",
-          "sort": "none"
+          "hideZeros": true,
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "pluginVersion": "",
       "targets": [
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${datasource}"
+          },
           "disableTextWrap": false,
           "editorMode": "code",
-          "expr": "batchjob_completion_latency_seconds_count{cluster=~\"$cluster\", user=~\"$user\"}",
+          "expr": "sum(batchjob_completion_latency_seconds_count{cluster=~\"$cluster\", namespace=~\"$namespace\", user=~\"$user\"}) by (cluster, user)",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "{{cluster}} {{user}}",
@@ -803,7 +1587,7 @@
           "useBackend": false
         }
       ],
-      "title": "Total BatchJob Completed",
+      "title": "Total BatchJob Completed Group By UserAgent",
       "type": "timeseries"
     }
   ],
@@ -929,7 +1713,7 @@
         },
         "definition": "label_values(api_requests_total,user)",
         "includeAll": true,
-        "label": "Component",
+        "label": "UserAgent",
         "multi": true,
         "name": "user",
         "options": [],
@@ -973,6 +1757,37 @@
         "query": {
           "qryType": 1,
           "query": "label_values(api_requests_total,verb)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "default"
+          ],
+          "value": [
+            "default"
+          ]
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${datasource}"
+        },
+        "definition": "label_values(api_requests_total,namespace)",
+        "description": "",
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "namespace",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(api_requests_total,namespace)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,

@@ -28,7 +28,8 @@ if [[ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || tru
     --network bridge \
     --name "${reg_name}" \
     -v "${ROOT_DIR}/registry-data:/var/lib/registry" \
-    "${target_image}"
+    "${target_image}" || :
+  sleep 1
 fi
 
 function get_image() {

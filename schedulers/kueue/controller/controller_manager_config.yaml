@@ -19,8 +19,8 @@ controller:
     ClusterQueue.kueue.x-k8s.io: 100
     ResourceFlavor.kueue.x-k8s.io: 100
 clientConnection:
-  qps: 1000
-  burst: 1000
+  qps: 1000 # <--QPS
+  burst: 1000 # <--QPS
 #pprofBindAddress: :8083
 #waitForPodsReady:
 #  enable: false

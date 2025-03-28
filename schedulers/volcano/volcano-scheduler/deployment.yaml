@@ -22,8 +22,8 @@ spec:
         - --enable-healthz=true
         - --enable-metrics=true
         - --leader-elect=false
-        - --kube-api-qps=1000
-        - --kube-api-burst=1000
+        - --kube-api-qps=1000 # <--QPS
+        - --kube-api-burst=1000 # <--QPS
         - --schedule-period=1s
         - --node-worker-threads=20
         - -v=3

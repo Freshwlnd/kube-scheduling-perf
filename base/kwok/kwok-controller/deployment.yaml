@@ -24,7 +24,7 @@ spec:
         - --node-ip=$(POD_IP)
         - --node-port=10247
         - --cidr=10.0.0.1/24
-        - --node-lease-duration-seconds=40
+        - --node-lease-duration-seconds=3600
         - --enable-crds=Stage
         - --enable-crds=Metric
         - --enable-crds=Attach
@@ -77,6 +77,10 @@ spec:
           initialDelaySeconds: 2
           periodSeconds: 10
           timeoutSeconds: 2
+        resources:
+          requests:
+            cpu: 1
+            memory: 100Mi
         volumeMounts:
         - name: kwok-config
           subPath: kwok.yaml

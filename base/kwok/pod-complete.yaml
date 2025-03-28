@@ -5,6 +5,8 @@ metadata:
 spec:
   delay:
     durationMilliseconds: 30000
+    durationFrom:
+      expressionFrom: '.metadata.annotations["pod-complete.stage.kwok.x-k8s.io/delay"]'
   next:
     statusTemplate: |
       {{ $now := Now }}

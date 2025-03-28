@@ -7,59 +7,47 @@ containerdConfigPatches:
 nodes:
 - role: control-plane
   image: localhost:5001/docker.io/kindest/node:v1.32.2
-  extraPortMappings:
-  - containerPort: 80
-    hostPort: 8080
-    protocol: TCP
   kubeadmConfigPatches:
-  - |
-    kind: InitConfiguration
-    nodeRegistration:
-      kubeletExtraArgs:
-        node-labels: "ingress-ready=true"
-  - |-
-    kind: KubeProxyConfiguration
-    metricsBindAddress: 0.0.0.0
   - |-
     kind: ClusterConfiguration
     controllerManager:
       extraArgs:
-        bind-address: 0.0.0.0
-        kube-api-qps: "1000"
-        kube-api-burst: "1000"
+        kube-api-qps: "1000" # <--QPS
+        kube-api-burst: "1000" # <--QPS
+        node-monitor-grace-period: "7200s"
+        node-monitor-period: "3600s"
+        concurrent-job-syncs: "100"
     etcd:
       local:
         extraArgs:
-          listen-metrics-urls: http://0.0.0.0:2381
           quota-backend-bytes: "8589934592"
           auto-compaction-mode: revision
           auto-compaction-retention: "1000"
     scheduler:
       extraArgs:
-        bind-address: 0.0.0.0
-        kube-api-qps: "1000"
-        kube-api-burst: "1000"
+        kube-api-qps: "1000" # <--QPS
+        kube-api-burst: "1000" # <--QPS
     apiServer:
       extraArgs:
-        audit-log-maxsize: '2048'
-        audit-log-path: /var/log/kubernetes/kube-apiserver-audit.log
+        audit-log-maxsize: '10240'
+        audit-log-path: /var/log/kubernetes/kube-apiserver-audit.kueue.log
         audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
-        max-mutating-requests-inflight: '2000'
-        max-requests-inflight: '2000'
+        max-mutating-requests-inflight: '20000'
+        max-requests-inflight: '20000'
       extraVolumes:
       - name: audit-policies
         hostPath: /etc/kubernetes/policies
         mountPath: /etc/kubernetes/policies
         readOnly: true
         pathType: "DirectoryOrCreate"
-      - name: "audit-logs"
+      - name: audit-logs
         hostPath: "/var/log/kubernetes"
         mountPath: "/var/log/kubernetes"
         readOnly: false
         pathType: DirectoryOrCreate
   extraMounts:
-  - hostPath: ./audit-policy.yaml
+  - hostPath: ../../audit-policy.yaml
     containerPath: /etc/kubernetes/policies/audit-policy.yaml
     readOnly: true
-  - hostPath: ./logs/
+  - hostPath: ../../logs/
     containerPath: /var/log/kubernetes/

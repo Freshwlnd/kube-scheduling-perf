@@ -1,32 +1,31 @@
 package yunikorn_test
 
 import (
-	_ "embed"
-	"strings"
 	"testing"
 
 	"github.com/wzshiming/kube-scheduling-perf/test/utils"
-
-	"sigs.k8s.io/e2e-framework/klient/decoder"
 )
 
-//go:embed batch_job.yaml
-var batchJobYaml string
-
-func TestBatchJob(t *testing.T) {
-	t.Log("create nodes")
-	for range 100 {
-		err := r.Create(t.Context(), utils.Nodes())
-		if err != nil {
-			t.Fatal(err)
-		}
+func TestInit(t *testing.T) {
+	err := provider.AddNodes(t.Context())
+	if err != nil {
+		t.Fatal(err)
 	}
 
-	for i := range 1000 {
-		t.Log("create batch job", i)
-		err := decoder.DecodeEach(t.Context(), strings.NewReader(batchJobYaml), decoder.CreateHandler(r))
-		if err != nil {
-			t.Fatal(err)
-		}
+	err = provider.InitCase(t.Context())
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestBatchJob(t *testing.T) {
+	err := provider.AddJobs(t.Context())
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = utils.WaitDeployment(t.Context(), utils.Resources)
+	if err != nil {
+		t.Fatal(err)
 	}
 }

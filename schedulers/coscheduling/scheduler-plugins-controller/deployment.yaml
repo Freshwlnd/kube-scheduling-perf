@@ -20,7 +20,7 @@ spec:
         imagePullPolicy: IfNotPresent
         name: scheduler-plugins-controller
         args:
-        - --qps=1000
-        - --burst=1000
+        - --qps=1000 # <--QPS
+        - --burst=1000 # <--QPS
         - --workers=100
       serviceAccountName: scheduler-plugins-controller

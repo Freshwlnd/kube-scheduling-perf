@@ -4,9 +4,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-DIR="$(dirname "${BASH_SOURCE[0]}")"
-ROOT_DIR="$(realpath "${DIR}/..")"
-
 # https://kind.sigs.k8s.io/docs/user/local-registry/
 
 # Registry configuration
@@ -17,7 +14,7 @@ in_cluster_registry="${reg_name}:5000"
 registry_dir="/etc/containerd/certs.d/${in_cluster_registry}"
 
 # Create kind cluster with containerd registry configuration
-kind create cluster --config "${ROOT_DIR}/kind.yaml"
+kind create cluster --config "${KIND_CONFIG:-}" --name "${KIND_CLUSTER_NAME:-kind}"
 
 # Configure containerd registry hosts on all nodes
 for node in $(kind get nodes); do

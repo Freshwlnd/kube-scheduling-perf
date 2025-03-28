@@ -1,18 +1,67 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: yunikorn-job-
+  name: yunikorn-job-#{{ .name }}-#{{ .index }}
   namespace: default
 spec:
+  backoffLimit: 1
   ttlSecondsAfterFinished: 1
-  parallelism: 3
-  completions: 3
+  parallelism: #{{ .size }}
+  completions: #{{ .size }}
   template:
     metadata:
+      annotations:
+        #{{ if .duration }}
+        pod-complete.stage.kwok.x-k8s.io/delay: "#{{ .duration }}"
+        #{{ end }}
+        #{{ if .gang }}
+        yunikorn.apache.org/task-group-name: yunikorn-job-#{{ .name }}-#{{ .index }}
+        yunikorn.apache.org/schedulingPolicyParameters: "placeholderTimeoutInSeconds=600 gangSchedulingStyle=Hard"
+        yunikorn.apache.org/task-groups: |-
+          [{
+              "name": "yunikorn-job-#{{ .name }}-#{{ .index }}",
+              "minMember": #{{ .size }},
+              "minResource": {
+                "cpu": "#{{ .cpuRequestPerPod }}",
+                "memory": "#{{ .memoryRequestPerPod }}"
+              },
+              "nodeSelector": {
+                "type": "kwok"
+              },
+              "tolerations": [
+                {
+                  "key": "kwok.x-k8s.io/node",
+                  "operator": "Exists",
+                  "effect": "NoSchedule"
+                }
+              ],
+              "affinity": {
+                "nodeAffinity": {
+                  "requiredDuringSchedulingIgnoredDuringExecution": {
+                    "nodeSelectorTerms": [
+                      {
+                        "matchExpressions": [
+                          {
+                            "key": "type",
+                            "operator": "In",
+                            "values": [
+                              "kwok"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "topologySpreadConstraints": []
+          }]
+        #{{ end }}
       labels:
+        test-instance: "1"
         app: sleep
-        applicationId: "sleep-app"
-        queue: "root.sandbox"
+        applicationId: "yunikorn-job-#{{ .name }}-#{{ .index }}"
+        queue: "#{{ .queue }}"
     spec:
       schedulerName: yunikorn
       restartPolicy: Never
@@ -20,11 +69,18 @@ spec:
       - name: sleep
         image: hello-world
         args:
+        #{{ if .duration }}
+        - "#{{ .duration }}"
+        #{{ else }}
         - "30s"
+        #{{ end }}
         resources:
           requests:
-            cpu: 1
-            memory: "200Mi"
+            cpu: #{{ .cpuRequestPerPod }}
+            memory: #{{ .memoryRequestPerPod }}
+          limits:
+            cpu: #{{ .cpuRequestPerPod }}
+            memory: #{{ .memoryRequestPerPod }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -38,3 +94,5 @@ spec:
       - key: "kwok.x-k8s.io/node"
         operator: "Exists"
         effect: "NoSchedule"
+      nodeSelector:
+        "type": kwok

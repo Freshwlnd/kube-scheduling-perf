@@ -24,8 +24,8 @@ spec:
         - --admission-conf=/admission.local.config/configmap/volcano-admission.conf
         - --webhook-namespace=volcano-system
         - --webhook-service-name=volcano-admission-service
-        - --kube-api-qps=1000
-        - --kube-api-burst=1000
+        - --kube-api-qps=1000 # <--QPS
+        - --kube-api-burst=1000 # <--QPS
         - --enable-healthz=true
         - --logtostderr
         - --port=8443

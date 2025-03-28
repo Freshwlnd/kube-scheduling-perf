@@ -1,2 +1,10 @@
 registry-data/
 logs/
+output/
+results/
+bin/
+gopath/
+vendor/
+tmp/
+
+.DS_Store

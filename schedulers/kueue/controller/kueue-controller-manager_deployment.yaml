@@ -62,8 +62,8 @@ spec:
         - --secure-listen-address=0.0.0.0:8443
         - --upstream=http://127.0.0.1:8080/
         - --logtostderr=true
-        - --kube-api-burst=1000
-        - --kube-api-qps=1000
+        - --kube-api-burst=1000 # <--QPS
+        - --kube-api-qps=1000 # <--QPS
         - --v=10
         image: kind-registry:5000/quay.io/brancz/kube-rbac-proxy:v0.17.0
         name: kube-rbac-proxy
