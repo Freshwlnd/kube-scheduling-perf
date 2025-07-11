@@ -6,7 +6,7 @@ containerdConfigPatches:
     config_path = "/etc/containerd/certs.d"
 nodes:
 - role: control-plane
-  image: localhost:5001/docker.io/kindest/node:v1.32.2
+  image: localhost:5001/docker.io/kindest/node:v1.27.1
   extraPortMappings:
   - containerPort: 80
     hostPort: 8080

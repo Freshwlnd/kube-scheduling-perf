@@ -36,11 +36,12 @@ SCHEDULERS ?= kueue volcano yunikorn
 
 LIMIT_CPU ?= 8
 
-IMAGE_PREFIX ?= 
-GO_IMAGE ?= $(IMAGE_PREFIX)docker.io/library/golang:1.24
-GOPROXY ?= https://proxy.golang.org,direct
+IMAGE_PREFIX ?= m.daocloud.io/
+GO_IMAGE ?= $(IMAGE_PREFIX)docker.io/library/golang:1.23.10
+GOPROXY ?= https://goproxy.cn,https://proxy.golang.org,https://mirrors.aliyun.com/goproxy/,https://proxy.golang.com.cn,https://goproxy.bj.bcebos.com/,https://gocenter.io,direct
 GOOS ?= $(shell uname -s | tr '[:upper:]' '[:lower:]')
 GO_IN_DOCKER = docker run --rm --network host \
+	-u $(shell id -u):$(shell id -g) \
 	-v $(shell pwd):/workspace/ -w /workspace/ \
 	-e GOOS=$(GOOS) -e CGO_ENABLED=0 -e GOPATH=/workspace/gopath/ -e GOPROXY=$(GOPROXY) $(GO_IMAGE)
 
@@ -66,8 +67,12 @@ TEST_ENVS = \
 		PREEMPTION=$(PREEMPTION) \
 		GANG=$(GANG)
 
+.PHONY: ensure-directories
+ensure-directories:
+	./hack/ensure-directories.sh
+
 .PHONY: default
-default:
+default: ensure-directories
 	make serial-test \
 		RESULT_RECENT_DURATION_SECONDS=250 TEST_TIMEOUT_SECONDS=350 \
 		NODES_SIZE=1000 \
@@ -185,7 +190,7 @@ down:
 		end-overview
 
 .PHONY: serial-test
-serial-test: bin/kind
+serial-test: ensure-directories bin/kind
 	$(foreach sched,$(SCHEDULERS), \
 		make prepare-$(sched); \
 		make start-$(sched); \

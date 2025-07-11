@@ -6,7 +6,7 @@ set -o pipefail
 
 DIR="$(dirname "${BASH_SOURCE[0]}")"
 ROOT_DIR="$(realpath "${DIR}/..")"
-IMAGE_PREFIX="${IMAGE_PREFIX:-}"
+IMAGE_PREFIX="${IMAGE_PREFIX:-m.daocloud.io/}"
 
 # https://kind.sigs.k8s.io/docs/user/local-registry/
 
@@ -14,10 +14,14 @@ IMAGE_PREFIX="${IMAGE_PREFIX:-}"
 reg_name='kind-registry'
 reg_port='5001'
 
+# Ensure registry-data directory exists with correct permissions
+mkdir -p "${ROOT_DIR}/registry-data"
+
 # Create local registry container if not running
 if [[ "$(docker inspect -f '{{.State.Running}}' "${reg_name}" 2>/dev/null || true)" != 'true' ]]; then
   target_image="docker.io/library/registry:2.8.3"
   if [[ ${IMAGE_PREFIX} != "" ]] && ! docker image inspect "${target_image}" &>/dev/null; then
+    echo "Pulling registry image from ${IMAGE_PREFIX}${target_image}"
     docker pull "${IMAGE_PREFIX}${target_image}"
     docker tag "${IMAGE_PREFIX}${target_image}" "${target_image}"
   fi
@@ -47,6 +51,7 @@ while IFS= read -r image; do
 
     # Pull image if not exists locally
     if ! docker image inspect "${source_image}" &>/dev/null; then
+      echo "Pulling image from ${source_image}"
       docker pull "${source_image}"
     fi
 

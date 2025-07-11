@@ -1,30 +1,31 @@
 package volcano_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/wzshiming/kube-scheduling-perf/test/utils"
 )
 
 func TestInit(t *testing.T) {
-	err := provider.AddNodes(t.Context())
+	err := provider.AddNodes(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = provider.InitCase(t.Context())
+	err = provider.InitCase(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func TestBatchJob(t *testing.T) {
-	err := provider.AddJobs(t.Context())
+	err := provider.AddJobs(context.Background())
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = utils.WaitDeployment(t.Context(), utils.Resources)
+	err = utils.WaitDeployment(context.Background(), utils.Resources)
 	if err != nil {
 		t.Fatal(err)
 	}

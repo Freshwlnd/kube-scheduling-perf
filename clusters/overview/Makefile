@@ -70,6 +70,6 @@ wait:
 		KUBECONFIG=$(KUBECONFIG) kubectl wait -A \
 			--for=condition=Ready=True pod \
 			--all \
-			--timeout=10s >/dev/null 2>&1 && break; \
+			--timeout=100s >/dev/null 2>&1 && break; \
 	done
 	sleep 1

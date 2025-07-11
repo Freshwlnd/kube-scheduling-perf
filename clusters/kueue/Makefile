@@ -61,6 +61,7 @@ create-kueue:
 	KUBECONFIG=$(KUBECONFIG) kubectl patch deploy -n kueue-system kueue-controller-manager --type json \
 		-p '[{"op": "replace", "path": "/spec/template/spec/containers/0/resources", "value": {"requests":{"cpu": "500m"}, "limits":{"cpu": $(LIMIT_CPU)}}}, {"op": "replace", "path": "/spec/template/spec/containers/1/resources", "value": {"requests":{"cpu": "500m"}, "limits":{"cpu": $(LIMIT_CPU)}}}]'
 	sleep 1
+	KUBECONFIG=$(KUBECONFIG) ../../hack/wait-for-webhook.sh kueue
 
 .PHONY: delete-kueue
 delete-kueue:
@@ -91,7 +92,7 @@ wait:
 		KUBECONFIG=$(KUBECONFIG) kubectl wait -A \
 			--for=condition=Ready=True pod \
 			--all \
-			--timeout=10s >/dev/null 2>&1 && break; \
+			--timeout=100s >/dev/null 2>&1 && break; \
 	done
 	sleep 1
 
